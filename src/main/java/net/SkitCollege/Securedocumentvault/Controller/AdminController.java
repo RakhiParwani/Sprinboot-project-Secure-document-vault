@@ -56,22 +56,4 @@ public class AdminController {
         return ResponseEntity.ok("User deleted successfully");
     }
 
-    @GetMapping("/documents")
-    public ResponseEntity<?> getAllDocuments() {
-        List<DocumentsEntity> documents = adminService.getAllDocuments();
-        if (documents.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No documents found");
-        }
-        return ResponseEntity.ok(documents);
-    }
-
-    @DeleteMapping("/documents/{id}")
-    public ResponseEntity<?> deleteAnyDocument(@PathVariable String  id) {
-        boolean delete=adminService.deleteDocument(id);
-        if(!delete)
-        {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("document not found");
-        }
-        return ResponseEntity.ok("Document deleted by admin");
-   }
 }

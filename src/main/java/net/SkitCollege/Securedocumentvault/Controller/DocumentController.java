@@ -3,6 +3,7 @@ package net.SkitCollege.Securedocumentvault.Controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import net.SkitCollege.Securedocumentvault.Service.DocumentService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class DocumentController {
     private final DocumentService documentService;
 
     // Upload Document
-    @PostMapping("/upload")
+    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> uploadDocuments(
             @RequestParam("files") MultipartFile[] files,
             Authentication authentication) {
@@ -27,7 +28,6 @@ public class DocumentController {
                 documentService.uploadMultiple(files, authentication.getName())
         );
     }
-
     // Get all documents of logged-in user
     @GetMapping("/alldoc")
     public ResponseEntity<?> getMyDocuments(Authentication authentication) {

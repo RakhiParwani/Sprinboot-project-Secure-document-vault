@@ -11,22 +11,22 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     @Autowired
-    private JavaMailSender javamailSender;
+    private JavaMailSender mailSender;
     private static final Logger log = LoggerFactory.getLogger(EmailService.class);
 
     public void sendEmail(String to, String subject, String body) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-//            message.setFrom("rakhiparwani54@gmail.com");
+            message.setFrom("rakhiparwani54@gmail.com");
             message.setTo(to);
             message.setSubject(subject);
             message.setText(body);
-//            message.setReplyTo("parwanidinesh79@gmail.com");
-//            System.out.println("Sending email to: " + to);
+          message.setReplyTo("parwanidinesh79@gmail.com");
+            System.out.println("Sending email to: " + to);
 
-            javamailSender.send(message);
+            mailSender.send(message);
 
-//            System.out.println("Email sent successfully!");
+
         } catch(Exception e) {
             log.error("Exception while sending email", e);
         }

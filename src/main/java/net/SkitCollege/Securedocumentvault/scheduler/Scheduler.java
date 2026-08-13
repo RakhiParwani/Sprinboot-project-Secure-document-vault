@@ -14,9 +14,9 @@ import java.util.List;
 public class Scheduler {
 
     @Autowired
-private  SecureDocumentRepository documentRepository;
+    private SecureDocumentRepository documentRepository;
     @Autowired
-private  EmailNotificationService emailService;
+    private EmailNotificationService emailService;
 
 //    public Scheduler(SecureDocumentRepository documentRepository,
 //                                     EmailNotificationService emailService) {
@@ -24,37 +24,37 @@ private  EmailNotificationService emailService;
 //        this.emailService = emailService;
 //    }
 
-    @Scheduled(cron="*/30 * * * * ?")
-//    public void runaAllOnce()
-//    {
-//        System.out.println("🔔 Scheduler started");
-//        sendUpdateReminders();
-//
-//        sendExpiryReminders();
-//    }
-    private void sendUpdateReminders()
-    {
-        LocalDate cutoffdate= LocalDate.now().minusDays(20);
-        List<DocumentsEntity> updatedocs= documentRepository.findByLastUpdatedDateBefore(cutoffdate);
+    @Scheduled(cron = "0 0 9 * * ?")
+    public void runaAllOnce() {
+        System.out.println("🔔 Scheduler started");
+        sendUpdateReminders();
 
-        for(DocumentsEntity doc : updatedocs)
-        {
+        sendExpiryReminders();
+    }
+
+    private void sendUpdateReminders() {
+        LocalDate cutoffdate = LocalDate.now().minusDays(20);
+        List<DocumentsEntity> updatedocs = documentRepository.findByLastUpdatedDateBefore(cutoffdate);
+
+        for (DocumentsEntity doc : updatedocs) {
+            System.out.println("email sent to:" + doc.getOwnerEmail());
             emailService.sendUpdateReminder(doc);
         }
     }
-    private void sendExpiryReminders()
-    {
-        LocalDate today=LocalDate.now();
-        LocalDate reminderDate=today.plusDays(7);
-        System.out.println("Checking expiry between " + today + " and " + reminderDate);
 
-        List<DocumentsEntity> expdocs=documentRepository.findByExpiryDateBetween(today,reminderDate);
-        System.out.println("Docs found: " + expdocs.size());
+    private void sendExpiryReminders() {
+        LocalDate reminderDate = LocalDate.now().plusDays(7);
+        List<DocumentsEntity> expdocs = documentRepository.findByExpiryDateBetween(LocalDate.now(), reminderDate);
         for (DocumentsEntity doc : expdocs) {
-            System.out.println("email sent to:"+doc.getOwnerEmail());
+            System.out.println("email sent to:" + doc.getOwnerEmail());
             emailService.sendExpiryReminder(doc);
         }
     }
 
 }
 
+
+
+//        "email":"Raghav@gmail.com",
+//        "password":"12345"
+//        }

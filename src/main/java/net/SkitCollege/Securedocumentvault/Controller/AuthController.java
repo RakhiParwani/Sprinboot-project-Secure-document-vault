@@ -52,12 +52,17 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(
                             request.getEmail(),
                             request.getPassword()
+//                          Authentication authentication=  authenticationmanager.authenticate(
+//                                    new UsernamePasswordAuthenticationToken(
+//                                            request.getEmail(),
+//                                            request.getPassword()
                     )
             );
 
             UserDetails userDetails =
                     userDetailsService.loadUserByUsername(request.getEmail());
-
+//   or         UserDetails userDetails =
+//                    (UserDetails) authentication.getPrincipal();will get userdetail by this
             String jwt = jwtutil.generateToken(userDetails.getUsername());
 
             return new ResponseEntity<>(jwt, HttpStatus.OK);

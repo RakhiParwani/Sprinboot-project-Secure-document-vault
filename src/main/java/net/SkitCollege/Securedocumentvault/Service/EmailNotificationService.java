@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class EmailNotificationService {
 
     @Autowired
-    private JavaMailSender mailSender;
+    private JavaMailSender mailSender;//used to send mails
 
 //    public EmailNotificationService(JavaMailSender mailSender) {
 //        this.mailSender = mailSender;
@@ -19,7 +19,7 @@ public class EmailNotificationService {
     // 🔹 UPDATE REMINDER
     public void sendUpdateReminder(DocumentsEntity doc) {
 
-        SimpleMailMessage mail = new SimpleMailMessage();
+        SimpleMailMessage mail = new SimpleMailMessage();//holds the details and sen to mailsender
         mail.setTo(doc.getOwnerEmail());
         mail.setSubject("Document Update Required");
         mail.setText(
